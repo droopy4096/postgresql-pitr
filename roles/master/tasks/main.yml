@@ -1,0 +1,6 @@
+---
+
+- name: open up firewall
+  shell: lokkit --port=5432:tcp
+
+- name: 
