@@ -1,0 +1,43 @@
+#
+# Based on: http://cvs.pgfoundry.org/cgi-bin/cvsweb.cgi/pgpitrha/pgpitrha/
+#
+# Modified for AU by: viorel@athabascau.ca
+#
+
+### Define the global variables ###
+
+### Make sure that all the directories exist ###
+
+# define our nodes
+PRIMARYNODE="{{ groups['master'][0] }}'"
+SECONDARYNODE="{{ groups['slave'][0] }}
+
+# our backup tool - usually no change is required here
+PSQL="/usr/bin/psql"
+
+# where do we send the error alerts
+ADMINS="{{ admin_email }}"
+
+# this is where our PostgreSQL installation lives
+PGHOME=/var/lib/pgsql
+PGDATA=$PGHOME/data
+PGBACKUP=$PGHOME/pgpitr/backup
+
+# log settings
+LOGGERLEVEL="local3.warn"
+DEBUGLEVEL="local3.debug"
+# PRIMARYNODE: the log file set below must be writable by the 'postgres' user
+PGPITRLOG="/var/log/pgpitr.log"
+
+# PRIMARYNODE: due to performance issues the WAL files must be located on a different filesystem (preferrably different RAID channel)
+PGXLOG="/var/spool/pgsql/pg_xlog"
+
+# SECONDARYNODE: the archive_command will be copying the primary's WALs to PGWAL/${PRIMARYNODE}
+PGWAL="/var/spool/pgsql/pgpitr/wal"
+# SECONDARYNODE: the cron job will rsync the incomplete WAL (which is not ready to be picked up by the archive_command) to ${PGWAL}/${LASTLOGDIR}
+LASTLOGDIR="lastlogdir"
+
+# the ${DIEFILE}.${BASENAME} (see 'die()' in /usr/local/lib/include.sh) will timestamp this file if there is an error
+DIEFILE="/var/lib/pgsql/pgpitr/run/pgpitr.die"
+# how often we'll annoy the admins: [seconds] from the timestamp of ${DIEFILE}
+DIE_GRACE_EMAIL=300

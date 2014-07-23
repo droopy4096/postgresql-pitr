@@ -9,5 +9,16 @@
 - name: make sure pgpitr package installed
   yum: name=pgpitr state=present
 
+- name: configure pgpitr
+  template: src=pgpitr.conf.j2 dest=/etc/pgpitr/pgpitr.conf backup=yes
+
+- name: authorize keys & create SSH dir
+  authorized_key: user=postgres key={{ lookup('file', '{{ postgres_key }}.pub' }} manage_dir=yes state=present
+
+- name: transfer keys
+  copy: src={{ item }} dest=/var/lib/pgsql/.ssh/{{ item }} backup=yes
+  with_items:
+  - "{{ postgres_key }}"
+  - "{{ postgres_key }}.pub"
 
 

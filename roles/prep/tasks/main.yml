@@ -1,0 +1,5 @@
+---
+
+- name: generate keys
+  shell: creates={{ postgres_key }} ssh-keygen -N "" -q -f {{ postgres_key }}
+  when: create_ssh_keys

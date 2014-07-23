@@ -3,12 +3,16 @@
 - hosts: all
   tasks:
   - name: install pre-requisites
-    yum: name=libselinux-python state=present
+    yum: name={{ item }} state=present
+    with_items:
+    - libselinux-python
+    - openssh-clients
 
   - name: copy pgpitr package
     copy: src={{ pgpitr_rpm }} dest=/var/tmp/{{ pgpitr_rpm }}
 
   - name: install pgpitr package
     yum: name=/var/tmp/{{ pgpitr_rpm }} state=present
+
 
 

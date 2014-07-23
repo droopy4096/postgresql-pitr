@@ -1,3 +1,10 @@
 ---
 
 pgpitr_rpm: pgpitr-1.0-16.4au.noarch.rpm
+admin_email: some@place.org
+
+generate_ssh_keys: False
+
+create_ssh_keys: True
+postgres_key: postgresql-key
+

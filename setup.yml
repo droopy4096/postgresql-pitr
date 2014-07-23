@@ -1,0 +1,9 @@
+---
+
+- hosts: controller
+  roles:
+  - prep
+
+- hosts: master
+  roles:
+  - master
