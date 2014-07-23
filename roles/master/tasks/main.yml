@@ -3,4 +3,11 @@
 - name: open up firewall
   shell: lokkit --port=5432:tcp
 
-- name: 
+- name: install PostgreSQL
+  yum: name=postgresql-server state=present
+
+- name: make sure pgpitr package installed
+  yum: name=pgpitr state=present
+
+
+
