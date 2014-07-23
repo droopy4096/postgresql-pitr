@@ -1,0 +1,14 @@
+---
+
+- hosts: all
+  tasks:
+  - name: install pre-requisites
+    yum: name=libselinux-python state=present
+
+  - name: copy pgpitr package
+    copy: src={{ pgpitr_rpm }} dest=/var/tmp/{{ pgpitr_rpm }}
+
+  - name: install pgpitr package
+    yum: name=/var/tmp/{{ pgpitr_rpm }} state=present
+
+
